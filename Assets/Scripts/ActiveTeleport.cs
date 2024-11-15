@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace MyVRSample
 {
@@ -10,6 +11,9 @@ namespace MyVRSample
 
         public InputActionProperty leftAction;
         public InputActionProperty rightAction;
+
+        public XRRayInteractor leftGrab;
+        public XRRayInteractor rightGrab;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -27,7 +31,11 @@ namespace MyVRSample
             float leftValue = leftAction.action.ReadValue<float>();
             float rightValue = rightAction.action.ReadValue<float>();
 
-            if(leftValue > 0.1f)
+            bool isLeftHover = leftGrab.TryGetHitInfo(out Vector3 leftPos, out Vector3 leftNomal, out int leftNum, out bool leftValid);
+            bool isRightHover = rightGrab.TryGetHitInfo(out Vector3 rightPos, out Vector3 rightNomal, out int rightNum, out bool rightValid);
+
+
+            if (leftValue > 0.1f && !isLeftHover)
             {
                 leftRay_TP.SetActive(true);
             }
@@ -35,7 +43,7 @@ namespace MyVRSample
             {
                 leftRay_TP.SetActive(false);
             }
-            if (rightValue > 0.1f)
+            if (rightValue > 0.1f && !isRightHover)
             {
                 rightRay_TP.SetActive(true);
             }

@@ -2,33 +2,36 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-public class FireBulletOnActivate : MonoBehaviour
+namespace MyVRSample
 {
-    public GameObject bullet;
-    public Transform firePoint;
-
-    public float bulletSpeed = 20f;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class FireBulletOnActivate : MonoBehaviour
     {
-        XRGrabInteractable grabInteractable = GetComponent<XRGrabInteractable>();
+        public GameObject bullet;
+        public Transform firePoint;
 
-        grabInteractable.activated.AddListener(FireBullet);
-    }
+        public float bulletSpeed = 20f;
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start()
+        {
+            XRGrabInteractable grabInteractable = GetComponent<XRGrabInteractable>();
 
-    }
+            grabInteractable.activated.AddListener(FireBullet);
+        }
 
-    void FireBullet(ActivateEventArgs args)
-    {
-        GameObject _bullet = Instantiate(bullet, firePoint.position, firePoint.rotation);
+        // Update is called once per frame
+        void Update()
+        {
 
-        _bullet.GetComponent<Rigidbody>().linearVelocity = firePoint.forward * bulletSpeed;
+        }
 
-        Destroy(_bullet, 3f);
+        void FireBullet(ActivateEventArgs args)
+        {
+            GameObject _bullet = Instantiate(bullet, firePoint.position, firePoint.rotation);
+
+            _bullet.GetComponent<Rigidbody>().linearVelocity = firePoint.forward * bulletSpeed;
+
+            Destroy(_bullet, 3f);
+        }
     }
 }
