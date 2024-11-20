@@ -8,8 +8,13 @@ namespace MyFPS
 {
     public class RayCon : MonoBehaviour
     {
+        // interactable Layer üũ
+        public LayerMask LayerMask;
+
         Transform target;
-        public static float length = 1f;
+        public static float length = Mathf.Infinity;
+        private float toTarget;
+
 
         // Start is called before the first frame update
         void Start()
@@ -29,25 +34,18 @@ namespace MyFPS
             RaycastHit hit;
 
 
-            if(Physics.Raycast(transform.position,transform.TransformDirection(Vector3.forward), out hit))
+            if(Physics.Raycast(transform.position,transform.TransformDirection(Vector3.forward), out hit, 100f, LayerMask))
             {
-                length = hit.distance;
-
-                //if(hit.collider.tag == "Door")
-                //{
-                //    target = hit.collider.transform;
-                //    target.GetComponent<DoorCon>().isOpen = true;
-                //}
+                toTarget = hit.distance;
+                length = toTarget;
 
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * length, Color.red);
 
             }
             else
             {
-                //if(target != null)
-                //{
-                //    target.GetComponent<DoorCon>().isOpen = false;
-                //}
+                toTarget = Mathf.Infinity;
+                length = toTarget;
             }
 
 

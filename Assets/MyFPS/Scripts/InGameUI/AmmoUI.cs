@@ -5,36 +5,25 @@ using UnityEngine;
 
 namespace MyFPS
 { 
-    public class AmmoUI : MonoBehaviour
+    public class AmmoUI : WorldMenu
     {
-        public GameObject ammoUI;
+        public float delay = 2f;
 
-        public TMP_Text ammoCount_Text;
-
-        private void Start()
+        // AmmoUI를 보여주고 2초후에 사라진다
+        public void ShowAmmoUI()
         {
-            ShowUI();
+            StartCoroutine(ShowUI());
         }
 
-        private void Update()
-        {
-            if (ammoUI != null && ammoUI.activeSelf)
-            {
-                ammoCount_Text.text = PlayerStats.Instance.AmmoCount.ToString();
-            }
-        }
 
-        void ShowUI()
-        {
-            if (PlayerStats.Instance.HasGun)
-            {
-                ammoUI.SetActive(true);
-            }
-            else
-            {
-                ammoUI.SetActive(false);
-            }
 
+        IEnumerator ShowUI()
+        {
+            ShowText(PlayerStats.Instance.AmmoCount.ToString());
+
+            yield return new WaitForSeconds(delay);
+
+            HideText();
         }
     }
 }

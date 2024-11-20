@@ -6,9 +6,9 @@ using StarterAssets;
 
 namespace MyFPS
 {
-    public class AOpening : MonoBehaviour
+    public class AOpening : WorldMenu
     {
-        [SerializeField] private GameObject player;
+        [SerializeField] private GameObject locomotion;
         [SerializeField] private TMP_Text openingText;
         [SerializeField] private string opening_text = "I need get out of here";
         [SerializeField] private string opening_text_2 = "... Where am i?";
@@ -17,9 +17,9 @@ namespace MyFPS
         public AudioSource line02;
 
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            base.Start();
             StartCoroutine(Opening());
         }
 
@@ -33,21 +33,26 @@ namespace MyFPS
             //4.플레이 캐릭터 활성화
 
             //player.SetActive(false);
-            player.transform.GetComponent<FirstPersonController>().enabled = false;
-            SceneFade.instance.FadeIn(null, 4f);
-            openingText.gameObject.SetActive(true);
-            openingText.text = opening_text_2;
+            //player.transform.GetComponent<FirstPersonController>().enabled = false;
+            locomotion.SetActive(false);
+            SceneFade.instance.FadeIn(null, 6f);
+
+            ShowText(opening_text_2);
+            //openingText.gameObject.SetActive(true);
+            //openingText.text = opening_text_2;
             line01.Play();
 
             yield return new WaitForSeconds(3f);
-
-            openingText.text = opening_text;
+            ShowText(opening_text);
+            //openingText.text = opening_text;
             line02.Play();
 
             yield return new WaitForSeconds(3f);
 
-            openingText.gameObject.SetActive(false);
-            player.transform.GetComponent<FirstPersonController>().enabled = true;
+            HideText();
+            //openingText.gameObject.SetActive(false);
+            locomotion.SetActive(true);
+            //player.transform.GetComponent<FirstPersonController>().enabled = true;
             //player.SetActive(true);
         }
     }

@@ -23,5 +23,11 @@ namespace MyFPS
 
             Destroy(gameObject);
         }
+
+        public void DoAction()
+        {
+            Action();
+        }
     }
+
 }

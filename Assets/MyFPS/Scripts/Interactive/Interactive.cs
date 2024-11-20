@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MyFPS
 {
@@ -16,14 +17,15 @@ namespace MyFPS
 
         private void OnMouseOver()
         {
-            if (RayCon.length <= 2f)
+            if (RayCon.length <= 10f)
             {
                 ActiveTrigger();
 
-                //if (Input.GetButtonDown("Action") && unInteractive == false)
-                //{
-                //    Action();
-                //}
+                if (InputActManager.Instance.IsLeftAct() == true ||
+                    InputActManager.Instance.IsRightAct() == true && unInteractive == false)
+                {
+                    Action();
+                }
             }
         }
         private void OnMouseExit()

@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+
 
 namespace MyFPS
 {
     public class PistolShoot : MonoBehaviour
     {
+        public AmmoUI ammoUI;
         [SerializeField] private Transform hitEffect;
         [SerializeField] private float impactForce = 5f;
 
@@ -23,59 +27,92 @@ namespace MyFPS
 
         Animator animator;
 
+
+
+        //
+
+        public GameObject bullet;
+
+        public float bulletSpeed = 20f;
+
+
+
         // Start is called before the first frame update
         void Start()
         {
-            animator = GetComponent<Animator>();
+            //animator = GetComponent<Animator>();
+
+            XRGrabInteractable grabInteractable = GetComponent<XRGrabInteractable>();
+
+            grabInteractable.activated.AddListener(Fire);
+
         }
 
         // Update is called once per frame
         void Update()
         {
-            //if(Input.GetMouseButtonDown(0) && isFire == false && UIManager.Instance.isPause == false)
+            //if (InputActManager.Instance.IsRightAct() == true && isFire == false && UIManager.Instance.isPause == false)
             //{
-            //    if(PlayerStats.Instance.AmmoCount > 0)
+            //    if (PlayerStats.Instance.AmmoCount > 0)
             //    {
             //        StartCoroutine(Shoot());
             //    }
 
-                
+
             //}
+
+
+
+        }
+
+        void Fire(ActivateEventArgs args)
+        {
+            if (isFire == false && PlayerStats.Instance.AmmoCount > 0)
+            {
+                StartCoroutine(Shoot());
+            }
         }
 
         IEnumerator Shoot()
         {
             isFire = true;
 
-            float maxdis = 100f;
+            ammoUI.ShowAmmoUI();
 
-            RaycastHit hit;
+            //float maxdis = 100f;
+
+            //RaycastHit hit;
 
             PlayerStats.Instance.UseAmmo();
 
-            if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit, maxdis))
-            {
-                Transform tmp_effect = Instantiate(hitEffect, hit.point, Quaternion.identity);
+            //if (Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit, maxdis))
+            //{
+            //    Transform tmp_effect = Instantiate(hitEffect, hit.point, Quaternion.identity);
 
-                Destroy(tmp_effect.gameObject, 2f);
+            //    Destroy(tmp_effect.gameObject, 2f);
 
-                if (hit.rigidbody != null)
-                {
-                    hit.rigidbody.AddForce(-hit.normal * impactForce, ForceMode.Impulse);            
-                }
+            //    if (hit.rigidbody != null)
+            //    {
+            //        hit.rigidbody.AddForce(-hit.normal * impactForce, ForceMode.Impulse);            
+            //    }
 
-                IDamage iDamage = hit.transform.GetComponent<IDamage>();
+            //    IDamage iDamage = hit.transform.GetComponent<IDamage>();
 
-                if (iDamage != null)
-                {
-                    iDamage.TakeDamage(attackDamage);
-                }
-            }
+            //    if (iDamage != null)
+            //    {
+            //        iDamage.TakeDamage(attackDamage);
+            //    }
+            //}
+
+
+            GameObject _bullet = Instantiate(bullet, firePoint.position, firePoint.rotation);
+
+            _bullet.GetComponent<Rigidbody>().linearVelocity = firePoint.forward * bulletSpeed;
 
             pistolFire.gameObject.SetActive(true);
             pistolFire.Play();
 
-            animator.SetTrigger("Fire");
+            //animator.SetTrigger("Fire");
 
             shootSound.Play();
 
@@ -87,22 +124,22 @@ namespace MyFPS
             isFire = false;
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            float maxdis = 100f;
-            RaycastHit hit;
-            Gizmos.color = Color.red;
-            bool isHit = Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit);
+        //private void OnDrawGizmosSelected()
+        //{
+        //    float maxdis = 100f;
+        //    RaycastHit hit;
+        //    Gizmos.color = Color.red;
+        //    bool isHit = Physics.Raycast(firePoint.position, firePoint.TransformDirection(Vector3.forward), out hit);
 
-            if (isHit)
-            {
-                Gizmos.DrawRay(firePoint.position, firePoint.forward * hit.distance);
-            }
-            else
-            {
-                Gizmos.DrawRay(transform.position, transform.forward * maxdis);
-            }
-        }
+        //    if (isHit)
+        //    {
+        //        Gizmos.DrawRay(firePoint.position, firePoint.forward * hit.distance);
+        //    }
+        //    else
+        //    {
+        //        Gizmos.DrawRay(transform.position, transform.forward * maxdis);
+        //    }
+        //}
 
     }
 }

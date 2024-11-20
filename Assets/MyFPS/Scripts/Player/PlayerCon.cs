@@ -27,10 +27,10 @@ namespace MyFPS
         {
             currentHealth = maxHealth;
 
-            if (PlayerStats.Instance.HasGun)
-            {
-                realPistol.SetActive(true);
-            }
+            //if (PlayerStats.Instance.HasGun)
+            //{
+            //    realPistol.SetActive(true);
+            //}
         }
 
         public void TakeDamage(float damage)
@@ -38,7 +38,7 @@ namespace MyFPS
             currentHealth -= damage;
 
             StartCoroutine(DamageEffect());
-            CinemachinShake.Instance.PlayerHitEffect(1f, 1f, 1f);
+            //CinemachinShake.Instance.PlayerHitEffect(1f, 1f, 1f);
 
             Debug.Log(currentHealth);
 

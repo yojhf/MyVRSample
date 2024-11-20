@@ -26,6 +26,10 @@ namespace MyFPS
             soundObject.GetComponent<AudioSource>().Play();
         }
         
+        public void DoAction()
+        {
+            Action();
+        }
     }
 
 }

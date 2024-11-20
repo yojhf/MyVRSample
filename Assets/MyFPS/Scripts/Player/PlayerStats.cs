@@ -77,7 +77,7 @@ namespace MyFPS
         public void GetAmmo(int count)
         {
             AmmoCount += count;
-            //ammoCount_Text.text = AmmoCount.ToString();
+            ammoCount_Text.text = AmmoCount.ToString();
 
         }
 
@@ -91,7 +91,7 @@ namespace MyFPS
 
             
             AmmoCount -= count;
-            //ammoCount_Text.text = AmmoCount.ToString();
+            ammoCount_Text.text = AmmoCount.ToString();
 
             return true;
         }
@@ -99,7 +99,7 @@ namespace MyFPS
         public int UseAmmo()
         {
             AmmoCount--;
-            //ammoCount_Text.text = AmmoCount.ToString();
+            ammoCount_Text.text = AmmoCount.ToString();
             return AmmoCount;
         }
 

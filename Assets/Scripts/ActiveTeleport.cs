@@ -51,6 +51,7 @@ namespace MyVRSample
             {
                 rightRay_TP.SetActive(false);
             }
+
         }
     }
 
