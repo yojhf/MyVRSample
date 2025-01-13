@@ -6,22 +6,9 @@ public class InputActManager : Singleton<InputActManager>
 {
     public InputActionProperty leftAction;
     public InputActionProperty rightAction;
-
-    public float leftActValue;
-    public float rightActValue;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        leftActValue = leftAction.action.ReadValue<float>();
-        rightActValue = rightAction.action.ReadValue<float>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    public InputActionProperty leftSelect;
+    public InputActionProperty rightSelect;
+    public InputActionProperty jump;
 
     public bool IsLeftAct()
     {
@@ -35,7 +22,25 @@ public class InputActManager : Singleton<InputActManager>
 
         return R_act > 0.1f;
     }
+    public bool IsLeftSelect()
+    {
+        float R_act = leftSelect.action.ReadValue<float>();
 
+        return R_act > 0.1f;
+    }
+    public bool IsRightSelect()
+    {
+        float R_act = rightSelect.action.ReadValue<float>();
+
+        return R_act > 0.1f;
+    }
+
+    public bool IsJump()
+    {
+        bool _jump = jump.action.WasPressedThisFrame();
+
+        return _jump;
+    }
 
 
 }

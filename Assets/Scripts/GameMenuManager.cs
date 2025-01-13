@@ -8,12 +8,14 @@ namespace MyVRSample
     public class GameMenuManager : MonoBehaviour
     {
         public GameObject gameMenu;
+        public GameObject inventory;
         public Transform head;
 
         public float yOffset = 1.36f;
         public float distance = 1.5f;
 
         public InputActionProperty showBtn;
+        public InputActionProperty invenBtn;
 
         // Drop UI
         public SnapTurnProvider snapTurn;
@@ -33,6 +35,10 @@ namespace MyVRSample
             {
                 Toggle();
             }
+            if (invenBtn.action.WasPressedThisFrame())
+            {
+                Toggle_Inven();
+            }
         }
 
         void Toggle()
@@ -47,6 +53,21 @@ namespace MyVRSample
                 gameMenu.transform.LookAt(new Vector3(head.position.x, gameMenu.transform.position.y, head.position.z));
 
                 gameMenu.transform.forward *= -1;
+            }
+        }
+
+        void Toggle_Inven()
+        {
+            inventory.SetActive(!inventory.activeSelf);
+
+            // show set
+            if (inventory.activeSelf)
+            {
+                inventory.transform.position = head.position + new Vector3(head.forward.x, yOffset, head.forward.z).normalized * distance;
+
+                inventory.transform.LookAt(new Vector3(head.position.x, inventory.transform.position.y, head.position.z));
+
+                inventory.transform.forward *= -1;
             }
         }
 
@@ -67,9 +88,9 @@ namespace MyVRSample
             }
         }
 
-        public void QuitBtn()
+        public void QuitBtn(GameObject ui)
         {
-
+            ui.SetActive(false);
         }
     }
 }
